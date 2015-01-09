@@ -3,7 +3,7 @@
 ##Gemfile
 
 ```ruby
-git 'adminio', '0.0.1', git: 'https://github.com/victorbueno/adminio.git'
+gem 'adminio', '0.0.1', git: 'https://github.com/victorbueno/adminio.git'
 ```
 
 ##Admin Controller
