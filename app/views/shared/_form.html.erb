@@ -1,0 +1,21 @@
+<h1>Novo(a) <%= @klass_name.humanize %></h1>
+
+<%
+path = [:admin, @instance] 
+if defined?(@parent_obj)
+	path = [:admin, @parent_obj, @instance]
+end
+%>
+
+<%= simple_form_for path do |f| %>
+	<% @form_fields.each do |field| %>
+		<%= f.input field %>
+	<% end %>
+	<% if defined?(@associations) %> 
+		<% @associations.each do |assoc| %>
+			<%= f.association assoc %>
+		<% end %>
+	<% end %>
+	<%= f.button :submit, 'Salvar', class: 'radius' %>
+	&nbsp;&nbsp;&nbsp;<%= link_to 'Voltar', :back %>
+<% end %>

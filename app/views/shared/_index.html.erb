@@ -1,0 +1,83 @@
+<div class="row">
+	<div class="large-8 columns">
+		<h1><%= @klass_name.pluralize.humanize %></h1>		
+	</div>
+	<div class="large-4 columns text-right">
+		<% if defined?(@parent) %>
+			<%= link_to "Novo(a) #{@klass_name.humanize}", send("new_admin_#{@parent.name.downcase}_#{@klass_name}_path"), class: 'button success radius' %>
+		<% else %>
+			<%= link_to "Novo(a) #{@klass_name.humanize}", send("new_admin_#{@klass_name}_path"), class: 'button success radius' %>
+		<% end %>
+	</div>
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<% @index_fields.each do |field_name| %>
+			<th><%= field_name.to_s.humanize %></th>	
+			<% end %>
+
+			<% if defined?(@children) %>
+				<% @children.each do |child| %>
+					<th><%= child.to_s.humanize %></th>
+				<% end %>
+			<% end %>
+
+			<% if defined?(@actions[:show]) && @actions.include?(:show) %>
+				<th>Ver</th>
+			<% end %>
+			<% if defined?(@actions[:edit]) && @actions.include?(:edit) %>
+			<th>Editar</th>
+			<% end %>
+			<% if defined?(@actions[:delete]) && @actions.include?(:delete) %>
+			<th>Excluir</th>
+			<% end %>
+		</tr>	
+	</thead>
+	
+	<tbody>
+		<% @collection.each do |instance| %>
+			<tr>
+				<% @index_fields.each do |field_name| %>
+					<td>
+						<% if instance.send(field_name).is_a?(Paperclip::Attachment) %>
+							<%= image_tag(instance.send(field_name, :thumb)) %>
+						<% else %>
+							<%= instance.send(field_name) %>
+						<% end %>
+					</td>
+				<% end %>
+
+				<% if defined?(@children) %>
+				<% @children.each do |child| %>
+					<td><%= link_to "#{child.to_s.humanize}", send("admin_#{@klass_name}_#{child.to_s}_path", instance) %></td>
+				<% end %>
+				<% end %>
+
+				<% if defined?(@parent) %>
+					<% if defined?(@actions[:show]) && @actions.include?(:show) %>
+						<td><%= link_to 'Ver', send("admin_#{@parent.name.downcase}_#{@klass_name}_path", @parent_obj, instance) %></td>
+					<% end %>
+					<% if defined?(@actions[:edit]) && @actions.include?(:edit) %>
+						<td><%= link_to 'Editar', send("edit_admin_#{@parent.name.downcase}_#{@klass_name}_path", @parent_obj, instance) %></td>
+					<% end %>
+					<% if defined?(@actions[:delete]) && @actions.include?(:delete) %>
+						<td><%= link_to 'Excluir', send("admin_#{@parent.name.downcase}_#{@klass_name}_path", @parent_obj, instance), method: :delete, data: {confirm: 'Tem certeza que deseja excluir?'} %></td>
+					<% end %>
+				<% else %>
+				<% if defined?(@actions[:show]) && @actions.include?(:show) %>
+					<td><%= link_to 'Ver', send("admin_#{@klass_name}_path", instance) %></td>
+				<% end %>
+				<% if defined?(@actions[:edit]) && @actions.include?(:edit) %>
+					<td><%= link_to 'Editar', send("edit_admin_#{@klass_name}_path", instance) %></td>
+				<% end %>
+				<% if defined?(@actions[:delete]) && @actions.include?(:delete) %>
+					<td><%= link_to 'Excluir', send("admin_#{@klass_name}_path", instance), method: :delete, data: {confirm: 'Tem certeza que deseja excluir?'} %></td>
+				<% end %>
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+
+</table>

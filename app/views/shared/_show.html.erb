@@ -1,0 +1,20 @@
+<h1><%= @klass_name.humanize %></h1>
+
+<div class="panel radius">
+<% @show_fields.each do |field| %>
+<div class="row">
+	<div class="large-3 columns bottom">
+		<label><%= field.to_s.humanize %></label>
+	</div>
+	<div class="large-9 columns bottom">
+		<% if @instance.send(field).is_a?(Paperclip::Attachment) %>
+		<%= image_tag(instance.send(field)) %>
+		<% else %>
+		<%= @instance.send(field) %>
+		<% end %>
+	</div>
+</div>
+<% end %>
+</div>
+
+<br><br><%= link_to 'Voltar', :back %>

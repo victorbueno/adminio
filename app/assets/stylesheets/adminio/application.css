@@ -1,0 +1,24 @@
+/**
+ *= require adminio/foundation_admin
+ *= require_self
+*/
+
+html, body {
+
+}
+
+.top-margin {
+	margin-top: 50px;
+}
+
+.top {
+	margin-top: 30px;
+}
+
+.bottom {
+	margin-bottom: 30px;
+}
+
+table {
+	width: 100%;
+}
