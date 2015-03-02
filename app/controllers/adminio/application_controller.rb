@@ -60,7 +60,9 @@ module Adminio
 
 		def destroy
 			@instance = finder(@klass, params[:id])
-			@parent_obj = @instance.send(@parent.name.underscore)
+			if defined?(@parent)
+				@parent_obj = @instance.send(@parent.name.underscore)
+			end
 			@instance.destroy
 			redirect("excluido")
 		end
